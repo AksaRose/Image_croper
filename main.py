@@ -138,6 +138,117 @@ def crop_to_cloud(image):
     result = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     result.paste(image.crop((0, 0, size, size)), (0, 0), mask)
     return result
+def crop_to_flower(image):
+    """Crop the image to an eight-petal flower shape."""
+    size = min(image.size)
+    mask = Image.new("L", (size, size), 0)
+    draw = ImageDraw.Draw(mask)
+
+    center_x, center_y = size // 2, size // 2
+    petal_radius = size // 3  # Adjust petal size
+    roundness = 0.6  # Control petal fatness
+    petals = 8
+
+    for i in range(petals):
+        angle = math.radians((i / petals) * 360)  # Convert to radians
+        x = center_x + petal_radius * math.cos(angle)
+        y = center_y + petal_radius * math.sin(angle)
+        draw.ellipse(
+            (x - petal_radius * roundness, y - petal_radius * roundness,
+             x + petal_radius * roundness, y + petal_radius * roundness),
+            fill=255
+        )
+
+    result = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    result.paste(image.crop((0, 0, size, size)), (0, 0), mask)
+    return result
+
+def crop_to_lightning_bolt(image):
+    """Crop the image to a lightning bolt shape using two distinct triangles."""
+    # Use the minimum dimension to ensure a square working area
+    size = min(image.size)
+    
+    # Create a transparent mask
+    mask = Image.new("L", (size, size), 0)
+    draw = ImageDraw.Draw(mask)
+    
+    # Define the two triangles that form the lightning bolt
+    # First triangle (upper part of bolt)
+    triangle1 = [
+        (size * 0.5, 0),        # Top
+        (size * 0.3, size * 0.5),  # Bottom left
+        (size * 0.6, size * 0.5)   # Bottom right
+    ]
+    
+    # Second triangle (lower part of bolt)
+    triangle2 = [
+        (size * 0.4, size * 0.5),  # Top left
+        (size * 0.7, size * 0.5),  # Top right
+        (size * 0.5, size)         # Bottom center
+    ]
+    
+    # Draw the two triangles
+    draw.polygon(triangle1, fill=255)
+    draw.polygon(triangle2, fill=255)
+    
+    # Create a new transparent image for the result
+    result = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    
+    # Paste the original image using the mask
+    result.paste(image.crop((0, 0, size, size)), (0, 0), mask)
+    
+    return result
+
+def crop_to_crescent_moon(image):
+    """Crop the image to a crescent moon shape."""
+    size = min(image.size)
+    mask = Image.new("L", (size, size), 0)
+    draw = ImageDraw.Draw(mask)
+
+    # Outer circle
+    draw.ellipse((0, 0, size, size), fill=255)
+
+    # Inner circle (to create crescent effect)
+    draw.ellipse((size * 0.3, 0, size * 1.3, size), fill=0)
+
+    result = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    result.paste(image.crop((0, 0, size, size)), (0, 0), mask)
+    return result
+
+def crop_to_diamond(image):
+    """Crop the image to a diamond shape."""
+    size = min(image.size)
+    mask = Image.new("L", (size, size), 0)
+    draw = ImageDraw.Draw(mask)
+
+    points = [
+        (size * 0.5, 0), (size, size * 0.5),
+        (size * 0.5, size), (0, size * 0.5)
+    ]
+    draw.polygon(points, fill=255)
+
+    result = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    result.paste(image.crop((0, 0, size, size)), (0, 0), mask)
+    return result
+
+def crop_to_butterfly(image):
+    """Crop the image to a butterfly shape (simple symmetrical shape)."""
+    size = min(image.size)
+    mask = Image.new("L", (size, size), 0)
+    draw = ImageDraw.Draw(mask)
+
+    # Rough butterfly shape
+    points = [
+        (size * 0.2, size * 0.5), (size * 0.4, size * 0.1),
+        (size * 0.6, size * 0.1), (size * 0.8, size * 0.5),
+        (size * 0.6, size * 0.9), (size * 0.4, size * 0.9)
+    ]
+    draw.polygon(points, fill=255)
+
+    result = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    result.paste(image.crop((0, 0, size, size)), (0, 0), mask)
+    return result
+
 
 @app.post("/crop")
 async def crop_image(
@@ -162,6 +273,16 @@ async def crop_image(
         cropped_image = crop_to_speech_bubble(image)
     elif shape == "cloud":
         cropped_image = crop_to_cloud(image)
+    elif shape == "flower":
+        cropped_image = crop_to_flower(image)
+    elif shape == "lightning_bolt":
+        cropped_image = crop_to_lightning_bolt(image)
+    elif shape == "crescent_moon":
+        cropped_image = crop_to_crescent_moon(image)
+    elif shape == "diamond":
+        cropped_image = crop_to_diamond(image)
+    elif shape == "butterfly":
+        cropped_image = crop_to_butterfly(image)
     else:
         return {"error": f"Shape '{shape}' is not supported. Try: circle, square, triangle, hexagon, star, heart."}
     
