@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Cropper</title>
+    <link rel="stylesheet" href="ui.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-heading">✨ Image Cropper Tool ✨</h1>
+
+        <!-- Upload Section -->
+        <div class="upload-section">
+            <label for="imageInput" class="upload-btn">Choose Image</label>
+            <input type="file" id="imageInput" accept="image/*" hidden>
+            <p id="fileName"></p>
+        </div>
+
+        <!-- Shape Selection -->
+        <h3>Select a Shape</h3>
+        <div class="shape-options">
+            <!-- Full list of shapes -->
+            <button class="shape-btn" data-shape="circle">Circle</button>
+            <button class="shape-btn" data-shape="square">Square</button>
+            <button class="shape-btn" data-shape="triangle">Triangle</button>
+            <button class="shape-btn" data-shape="hexagon">Hexagon</button>
+            <button class="shape-btn" data-shape="star">Star</button>
+            <button class="shape-btn" data-shape="heart">Heart</button>
+            <button class="shape-btn" data-shape="speech_bubble">Speech Bubble</button>
+            <button class="shape-btn" data-shape="cloud">Cloud</button>
+            <button class="shape-btn" data-shape="flower">Flower</button>
+            <button class="shape-btn" data-shape="lightning_bolt">Lightning Bolt</button>
+            <button class="shape-btn" data-shape="crescent_moon">Crescent Moon</button>
+            <button class="shape-btn" data-shape="diamond">Diamond</button>
+            <button class="shape-btn" data-shape="butterfly">Butterfly</button>
+        </div>
+
+        <!-- Crop Button -->
+        <button id="cropBtn" disabled>Crop & Upload</button>
+
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="loading hidden">Processing...</div>
+
+        <!-- Cropped Image Preview -->
+        <div class="preview-container">
+            <h3>Cropped Image Preview</h3>
+            <img id="croppedImage" class="cropped-image">
+        </div>
+
+        <!-- Download Button -->
+        <button id="downloadBtn" class="hidden download-btn">Download Cropped Image</button>
+    </div>
+
+    <script src="code.js"></script>
+</body>
+</html>
