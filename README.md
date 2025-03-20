@@ -55,8 +55,8 @@ Before running the project, ensure you have the following installed:
 bash
 
 
-`git clone https://github.com/your-username/grab-a-pi-hacknight.git
-cd grab-a-pi-hacknight`
+`https://github.com/AksaRose/Image_croper.git`
+`cd grab-a-pi-hacknight`
 
 2️⃣ **Create a virtual environment & activate it**
 
@@ -72,7 +72,6 @@ source .venv/bin/activate   # For Mac/Linux
 
 bash
 
-CopyEdit
 
 `pip install fastapi uvicorn pillow`
 
@@ -89,10 +88,6 @@ The API should now be running at **[http://127.0.0.1:8000](http://127.0.0.1:800
 ### **Frontend Setup**
 
 1️⃣ **Navigate to the frontend directory**
-
-bash
-
-`cd static`
 
 2️⃣ **Start a local HTTP server**
 
@@ -116,8 +111,6 @@ Go to **http://127.0.0.1:5500/index.html** in your browser.
 **Endpoint:**
 
 http://127.0.0.1:8000/crop
-
-CopyEdit
 
 `POST /crop`
 
