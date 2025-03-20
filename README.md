@@ -63,10 +63,10 @@ bash
 bash
 
 
-`python -m venv .venv
-source .venv/bin/activate   # For Mac/Linux
+`python -m venv .venv`
+`source .venv/bin/activate   # For Mac/Linux`
 # OR
-.venv\Scripts\activate      # For Windows`
+`.venv\Scripts\activate      # For Windows`
 
 3️⃣ **Install backend dependencies**
 
