@@ -1,10 +1,20 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.responses import StreamingResponse
+from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image, ImageDraw
 import io
-import math
 
 app = FastAPI()
+
+# Enable CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://127.0.0.1:5500"], 
+    allow_methods=["*"],  
+    allow_headers=["*"],  
+)
+
+
 
 def crop_to_circle(image):
     """Crop the image to a circular shape."""
