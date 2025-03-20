@@ -2,6 +2,7 @@ from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.responses import StreamingResponse
 from PIL import Image, ImageDraw
 import io
+import math
 
 app = FastAPI()
 
@@ -14,7 +15,6 @@ def crop_to_circle(image):
 
     result = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     result.paste(image.crop((0, 0, size, size)), (0, 0), mask)
-
     return result
 
 def crop_to_square(image):
@@ -32,7 +32,6 @@ def crop_to_triangle(image):
 
     result = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     result.paste(image.crop((0, 0, size, size)), (0, 0), mask)
-
     return result
 
 def crop_to_hexagon(image):
@@ -49,7 +48,95 @@ def crop_to_hexagon(image):
 
     result = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     result.paste(image.crop((0, 0, size, size)), (0, 0), mask)
+    return result
 
+def crop_to_star(image):
+    """Crop the image to a star shape."""
+    size = min(image.size)
+    mask = Image.new("L", (size, size), 0)
+    draw = ImageDraw.Draw(mask)
+
+    num_points = 5  # 5-point star
+    center_x, center_y = size // 2, size // 2
+    outer_radius = size * 0.45
+    inner_radius = outer_radius * 0.5
+    angle = math.pi / num_points
+
+    points = []
+    for i in range(num_points * 2):
+        r = outer_radius if i % 2 == 0 else inner_radius
+        theta = i * angle - math.pi / 2
+        x = center_x + r * math.cos(theta)
+        y = center_y + r * math.sin(theta)
+        points.append((x, y))
+
+    draw.polygon(points, fill=255)
+
+    result = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    result.paste(image.crop((0, 0, size, size)), (0, 0), mask)
+    return result
+
+def crop_to_heart(image):
+    """Crop the image to a heart shape."""
+    size = min(image.size)
+    mask = Image.new("L", (size, size), 0)
+    draw = ImageDraw.Draw(mask)
+
+    # Define heart shape points
+    points = [
+        (size * 0.5, size * 0.2),  # Top center
+        (size * 0.8, size * 0.05), # Right bump
+        (size * 1.0, size * 0.3),  # Right curve
+        (size * 0.9, size * 0.6),  # Right bottom curve
+        (size * 0.5, size * 1.0),  # Bottom point
+        (size * 0.1, size * 0.6),  # Left bottom curve
+        (size * 0.0, size * 0.3),  # Left curve
+        (size * 0.2, size * 0.05), # Left bump
+    ]
+    draw.polygon(points, fill=255)
+
+    result = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    result.paste(image.crop((0, 0, size, size)), (0, 0), mask)
+    return result
+def crop_to_circle(image):
+    size = min(image.size)
+    mask = Image.new("L", (size, size), 0)
+    draw = ImageDraw.Draw(mask)
+    draw.ellipse((0, 0, size, size), fill=255)
+
+    result = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    result.paste(image.crop((0, 0, size, size)), (0, 0), mask)
+    return result
+
+def crop_to_speech_bubble(image):
+    """Crop image into a speech bubble shape."""
+    size = min(image.size)
+    mask = Image.new("L", (size, size), 0)
+    draw = ImageDraw.Draw(mask)
+
+    # Speech bubble main oval
+    draw.ellipse((size * 0.1, size * 0.1, size * 0.9, size * 0.8), fill=255)
+
+    # Speech tail
+    draw.polygon([(size * 0.4, size * 0.75), (size * 0.6, size * 0.75), (size * 0.5, size * 0.95)], fill=255)
+
+    result = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    result.paste(image.crop((0, 0, size, size)), (0, 0), mask)
+    return result
+
+def crop_to_cloud(image):
+    """Crop image into a cloud shape."""
+    size = min(image.size)
+    mask = Image.new("L", (size, size), 0)
+    draw = ImageDraw.Draw(mask)
+
+    # Cloud main circles
+    draw.ellipse((size * 0.15, size * 0.3, size * 0.75, size * 0.8), fill=255)
+    draw.ellipse((size * 0.4, size * 0.2, size * 0.85, size * 0.7), fill=255)
+    draw.ellipse((size * 0.1, size * 0.4, size * 0.6, size * 0.85), fill=255)
+
+    result = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    result.paste(image.crop((0, 0, size, size)), (0, 0), mask)
     return result
 
 @app.post("/crop")
@@ -67,8 +154,16 @@ async def crop_image(
         cropped_image = crop_to_triangle(image)
     elif shape == "hexagon":
         cropped_image = crop_to_hexagon(image)
+    elif shape == "star":
+        cropped_image = crop_to_star(image)
+    elif shape == "heart":
+        cropped_image = crop_to_heart(image)
+    elif shape == "speech_bubble":
+        cropped_image = crop_to_speech_bubble(image)
+    elif shape == "cloud":
+        cropped_image = crop_to_cloud(image)
     else:
-        return {"error": f"Shape '{shape}' is not supported. Try: circle, square, triangle, hexagon."}
+        return {"error": f"Shape '{shape}' is not supported. Try: circle, square, triangle, hexagon, star, heart."}
     
     img_byte_arr = io.BytesIO()
     cropped_image.save(img_byte_arr, format="PNG")
