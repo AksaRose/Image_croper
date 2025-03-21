@@ -60,7 +60,6 @@ bash
 
 
 `https://github.com/AksaRose/Image_croper.git`
-`cd grab-a-pi-hacknight`
 
 2️⃣ **Create a virtual environment & activate it**
 
