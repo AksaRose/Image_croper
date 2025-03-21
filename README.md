@@ -20,13 +20,12 @@ As there are time constraints and technical difficulties,we could only make it a
 🎥 **Demo Video**
 -----------------
 
-<img width="1392" alt="Screenshot 2025-03-21 at 5 27 15 AM" src="https://github.com/user-attachments/assets/eecf972c-3788-405c-9324-f9e179b72eb2" />
+
+https://github.com/user-attachments/assets/68d634c7-7a63-4c2f-b696-8ccf3376b5b8
 
 
+* * * * *<img width="1286" alt="Screenshot 2025-03-21 at 9 11 28 AM" src="https://github.com/user-attachments/assets/97cfc205-aa58-4f9e-b0f5-e34a97b5afbf" />
 
-
-https://github.com/user-attachments/assets/73a3802a-568b-4c0e-a84a-a68ab79bdd1d
-* * * * *
 
 
 🛠 **Installation**
