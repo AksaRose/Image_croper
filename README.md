@@ -20,9 +20,14 @@ As there are time constraints and technical difficulties,we could only make it a
 🎥 **Demo Video**
 -----------------
 
-[Add the video link here]
+<img width="1392" alt="Screenshot 2025-03-21 at 5 27 15 AM" src="https://github.com/user-attachments/assets/eecf972c-3788-405c-9324-f9e179b72eb2" />
 
+
+
+
+https://github.com/user-attachments/assets/73a3802a-568b-4c0e-a84a-a68ab79bdd1d
 * * * * *
+
 
 🛠 **Installation**
 -------------------
